@@ -3,12 +3,92 @@
         list-style-type: none;
         display: inline;
         margin: 0;
-        }
+        transition: font-size .1s;
+}
+
+#navbar ul li a:hover {
+        font-size: 30px;
+}
 
 #navbar ul li a {
         text-decoration: none;
         color: darkslateblue;
-        font-style: bold;
+        font-weight: bold;
         font-size: 25px;
         text-align: center;
+}
+
+#navbar {
+        padding-bottom: 50px;
+}
+
+#ExternalLinks {
+        font-size: 23px;
+        color: Blue;
+        font-weight: bold;
+        margin-left: 100px;
+        margin-top: 50px;
+        clear: both;
+}
+
+#Header {
+        background-color:lightgray;
+        font-size:25px;
+        padding-bottom: 1px;
+}
+
+#picture {
+        float: right;
+        margin: 2% 7% 0% 0%;
+}
+
+#ResumeText {
+        float: left;
+        margin: 2% 0% 0% 6%
+}
+
+
+pre {
+        font-size: 20px;
+}
+
+
+html, body {
+        height: 100%;
+}
+
+.wrapper {
+        min-height: 100%;
+        height: auto;
+        height: 100%;
+        margin: 0 auto -4em;
+        padding-top: 25px;
+}
+
+.footer, .push {
+        height: 4em;
+        text-align: center;
+}
+
+
+/*This stopped working when I added bootstrap*/
+@media screen and (max-width: 699px) and (min-width: 520px) {
+        body {
+                color: red;
+        }
+        #navbar {
+                color: Aqua;
+        }
+}
+/*This stopped working when I added bootstrap*/
+
+.marginbottom {
+        margin-bottom: 25px;
+}
+h2 {
+        padding-bottom: 35px;
+        padding-top: 20px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+
 }
