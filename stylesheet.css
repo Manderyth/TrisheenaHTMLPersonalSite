@@ -19,7 +19,7 @@
 }
 
 #navbar {
-        padding-bottom: 50px;
+        padding-bottom:15px;
 }
 
 #ExternalLinks {
@@ -27,7 +27,7 @@
         color: Blue;
         font-weight: bold;
         margin-left: 100px;
-        margin-top: 50px;
+        margin-top: 500px;
         clear: both;
 }
 
@@ -35,6 +35,7 @@
         background-color:lightgray;
         font-size:25px;
         padding-bottom: 1px;
+        padding-top: 10px;
 }
 
 #picture {
@@ -60,9 +61,9 @@ html, body {
 .wrapper {
         min-height: 100%;
         height: auto;
-        height: 100%;
+        height: 50%;
         margin: 0 auto -4em;
-        padding-top: 25px;
+        padding-top: 20px;
 }
 
 .footer, .push {
@@ -91,4 +92,13 @@ h2 {
         margin-top: 0px;
         margin-bottom: 0px;
 
+}
+
+.answerbox {
+     padding-left: 50px;
+     padding-right: 50px;
+}
+
+.ResumeButton {
+        border-radius: 25px;
 }

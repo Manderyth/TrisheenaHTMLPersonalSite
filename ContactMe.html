@@ -13,7 +13,7 @@
     <title>ContactMe</title>
 </head>
 
-<body>
+<body style="line-height:40.5px">
 <div class="wrapper">
 <div id="Header">
     <H1 align="center">Trisheena Hepting</H1>
@@ -23,25 +23,46 @@
 <div id="navbar">
     <ul style="text-align: center; background-color:lightblue">
         <li><a href="./Resume.html">Home</a></li>
+        <li><a href="./portfolio.html">Portfolio</a></li>
         <li><a href="./index.html">Interests</a></li>
         <li><a href ="./Gallery.html">Gallery</a></li>
         <li><a href ="./ContactMe.html">Contact</a></li>
     </ul>
 </div>
 
-<form style="text-align:center; font-size: 25px; background-color: lightblue">
-    <strong>Contact Me</strong><br><br><br>
-    <label for="firstName">Name</label><input id="firstName" name="first"><br>
-    <label for="email">Email</label><input type="email" id="email" name="email"><br>
-    <textarea cols="30" rows="15"> </textarea><br>
-    <input type="submit" value="submit">
-</form>
+<div class="container-fluid" style="background-color: lightblue">
+    <div class="col-sm-6">
+        <form id="ContactMe" style="text-align:center; padding-left: 50px; font-size: 25px; background-color: lightblue"><br><br>
+            <strong>Comments</strong><br><br><br>
+            <label for="firstName">Name</label><input id="firstName" name="first"><br>
+            <label for="email">Email</label><input type="email" id="email" name="email"><br>
+            <textarea cols="29" rows="10"> </textarea><br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+
+    <div class="col-sm-6">
+        <form id="Questionaire" style="text-align:center; padding-right: 50px; font-size: 25px; background-color: lightblue"><br><br>
+            <strong> Questionaire</strong><br><br>
+            Are You?<br>
+            <input type="radio" name="sex" value="dragon">A Dragon<br>
+            <input type="radio" name="sex" value="other">Anthing Else<br><br><br>
+
+            Do you like Dragons?<br>
+            <input class="answerbox" type="checkbox" name="like" value="like">Like
+            <input class="answerbox" type="checkbox" name="neutral" value="neutral">Neutral
+            <input class="answerbox" type="checkbox" name="dislike" value="dislike">Dislike<br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
 
 <div class="push"></div>
 </div>
 
 <div class="footer">
     <p>@2016 Provo UT</p>
+    <a href="SiteMap.html">SiteMap</a>
 </div>
 
 </body>
