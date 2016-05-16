@@ -1,0 +1,49 @@
+html {
+    height:100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    overflow: hidden;
+    height: 100%;
+    display: block;
+}
+
+#leftmenu {
+    height: 100%;
+    width: 30%;
+    float: left;
+    background-color: #C05A5C;
+}
+
+#navigation a {
+    display: block;
+}
+
+
+#rightcontent {
+    width: 70%;
+    height: 100%;
+    background-color: #81B860;
+    float: left;
+    overflow: hidden;
+}
+
+#columnOne {
+    height: 100%;
+    width: 25%;
+    float: left;
+    background-color: #494949;
+}
+
+#columnTwo {
+    height: 100%;
+    width: 25%;
+    float: left;
+}
