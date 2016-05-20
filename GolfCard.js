@@ -1,18 +1,47 @@
+/* add this
+for (var c = numholes; c >= 1; c --) {
+    holecollection += "<div id='column" + c"' class'holecol'><div class 'holenumbertitle'>" + c + "</div></div>";
+}
+$("#leftcard").html(playercollection;
+$("rightcard").holecollection); */
 
-var numplayers = 5;
 
-function runcode() {
-    for(var p = 1; p <= numplayers; p++ ){
-        collectholes(p);
-    }
+/* create a div on the left that holds the number of players
+
+create a new div that creates the columns on the right - put this before you run the column that adds the holes
+
+add $("#column + h ") 
+ */
+
+
+/*var myVar = setInterval(function) {myTimer()}, 1000;
+
+function myTimer() {
+    var d = new Date();
+    var t = d.toLocaleTimeString();
+    document.getElementById("demo").innerHTML = t;
 }
 
-function collectholes(player){
-    var golfcourse = "";
-    for(var h = 1; h <= 18; h++){
-        var hole = "<div id='player" + player +"hole" + h +"'>hole display</div>";
-        golfcourse += hole;
-        //console.log(golfcourse);
+function myStopFunction (
+    clearinterval(myVar);
+) */
+
+
+var teetime = 45;
+var seconds = 60;
+
+function beginTimer() {    //call this onload
+    var thetimer = setInterval(function(){clocktick()}, 1000);
+}
+
+function clocktick() {
+    if(seconds > 0) {
+        seconds--;
     }
-    $("#scorecard").append(golfcourse);
+    
+    else {
+        teetime --;
+        seconds = 60;
+    }
+        document.getElementById("countdown").innerHTML = teetime + ":" + seconds;
 }
