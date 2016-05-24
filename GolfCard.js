@@ -28,7 +28,7 @@ function buildholes() {
     // add 18 holes to the columns
     for(var p = 1; p <= numplayers; p++ ){
         for(var h = 1; h <= numholes; h++){
-            $("#column" + h).append("<div id='player" + p +"hole" + h +"' class='holebox'><input class ='box' type='number'></div>");
+            $("#column" + h).append("<div id='player" + p +"hole" + h +"' class='holebox'><input class ='box' type='number' min='0'></div>");
         }
     }
 }
@@ -52,3 +52,24 @@ function clocktick(){
 }
 
 
+/*
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function () {
+    if (shttp.readyState == 4 && shttp.status == 200) {
+        document.getElementById(demo).innerHTML= xhttp.responseText;
+    }
+};
+
+xhttp.open("GET", "https://golf-courses-api.herokuapp.com/courses/18300", true);
+xhttp.send();
+*/
+
+function validateZip() {
+    var zip, number;
+
+    if (isNaN(zip)) {
+        text = "Input not Valid";
+    } else {
+        text = "Input Ok";
+    }
+}
