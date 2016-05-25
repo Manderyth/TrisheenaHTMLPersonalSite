@@ -8,6 +8,7 @@ body,html{
     margin: 0;
     padding: 0;
 }
+
 #container{
     width: 100%;
     height: auto;
@@ -38,7 +39,7 @@ body,html{
 
 .barright{
     float:right;
-    width: 100px;
+    width: 280px;
 }
 
 
@@ -60,16 +61,17 @@ body,html{
 }*/
 
 #logotext{
-    padding: 20px;
+    padding: 25px;
     font-weight: bold;
     font-size: 20px;
-    text-align: center;
+    /*text-align: center;*/
+    padding-left: 525px;
 }
 
 #golfcourselabel{
     font-size: 50px;
     font-weight: bold;
-    color: black;
+    color: white;
     padding-left: 15px;
     padding-top: 100px;
     font-family: 'Lobster', cursive;
@@ -99,7 +101,7 @@ body,html{
     width: 100%;
     height: 70px;
     color: black;
-    background-color: white;
+    /*background-color: white;*/
 }
 
 #contentdiv{
@@ -179,4 +181,10 @@ body,html{
         font-size: 32px;
         padding-top: 225px;
     }
+}
+
+#map {
+    height:25%;
+    width: 25%;
+    position: fixed;
 }
