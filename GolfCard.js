@@ -93,6 +93,7 @@ function initMap() {
         center: {lat: 34.1645327, lng: -118.1699226}
     });
 
+    /* Puts a second marker on the map */
     /*var teeOffImage = 'images/tee-off.png';
     var beachMarker = new google.maps.Marker({
         position: {lat: 34.1647332, lng: -118.1690036},
@@ -110,4 +111,19 @@ function initMap() {
 
 
 //golf course api
-// look in sandbox for course id.  Us the Course by ID http to pull the par, holes, etc for that specific course. use postman to pull these
+// look in sandbox for course id.  Use the Course by ID http to pull the par, holes, etc for that specific course. use postman to pull these
+
+
+
+function getCourseInfo() {
+    var xhttpNew = new XMLHttpRequest();
+    xhttpNew.onreadystatechange() = function() {
+        if (xhttpNew.readyState == 4 && xhttpNew.status == 200) {
+            var testcourse = JSON.parsexhttpNew.responseText);
+            document.getElementById(/*several id's*/).innerHTML = testcourse.par
+        }
+    }
+};
+
+xhttpNew.open ("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true); //change this to add just the one id to the end of the http
+xhttpNew.send();
