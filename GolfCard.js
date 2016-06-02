@@ -4,25 +4,25 @@ var teetime = 10;
 var seconds = 59;
 
 function addplayer() {
-    numplayers +=1;
+    numplayers += 1;
     $("#leftcard").html('');
     $("#rightcard").html('');
     buildcard();
 }
 
-function buildcard(){
+function buildcard() {
     /*beginTimer();*/
     var holecollection = "";
     var playercollection = "";
 
     // create column of player labels
-    for(var pl = 1; pl <= numplayers; pl++ ){
-        playercollection += "<div id='player" + pl +"' class='holebox playerbox'> Player " + pl + "</div>";
+    for (var pl = 1; pl <= numplayers; pl++) {
+        playercollection += "<div id='player" + pl + "' class='holebox playerbox'> Player " + pl + "</div>";
     }
 
     // create golf hole columns before you add holes to them.
-    for(var c = numholes; c >= 1; c-- ){
-        holecollection += "<div id='column" + c +"' class='holecol'><div class='holenumbertitle'>" + c + "</div></div>";
+    for (var c = numholes; c >= 1; c--) {
+        holecollection += "<div id='column" + c + "' class='holecol'><div class='holenumbertitle'>" + c + "</div></div>";
     }
     $("#leftcard").html(playercollection);
     $("#rightcard").html(holecollection);
@@ -33,14 +33,12 @@ function buildcard(){
 
 function buildholes() {
     // add 18 holes to the columns
-    for(var p = 1; p <= numplayers; p++ ){
-        for(var h = 1; h <= numholes; h++){
-            $("#column" + h).append("<div id='player" + p +"hole" + h +"' class='holebox'><input class ='box' type='number' min='0'></div>");
+    for (var p = 1; p <= numplayers; p++) {
+        for (var h = 1; h <= numholes; h++) {
+            $("#column" + h).append("<div id='player" + p + "hole" + h + "' class='holebox'><input class ='box' type='number' min='0'></div>");
         }
     }
 }
-
-
 
 
 /* set time */
@@ -49,33 +47,33 @@ var time = setInterval(timer, 1000);
 function timer() {
     var d = new Date();
     var m = d.toDateString();
-    document.getElementById("demo").innerHTML= m + " " + d.toLocaleTimeString();
+    document.getElementById("demo").innerHTML = m + " " + d.toLocaleTimeString();
 }
 
 
 /* Countdown */
 /*function beginTimer(){
-    var thetimer = setInterval(function(){clocktick()}, 1000);
-}
+ var thetimer = setInterval(function(){clocktick()}, 1000);
+ }
 
-function clocktick(){
-    if(seconds > 0){
-        seconds --;
-        if(seconds < 10){
-            seconds = "0" + seconds;
-        }
-    }
-    else{
-        teetime --;
-        seconds = 59;
-    }
-    document.getElementById("countdown").innerHTML = teetime + ":" + seconds;
-} */
+ function clocktick(){
+ if(seconds > 0){
+ seconds --;
+ if(seconds < 10){
+ seconds = "0" + seconds;
+ }
+ }
+ else{
+ teetime --;
+ seconds = 59;
+ }
+ document.getElementById("countdown").innerHTML = teetime + ":" + seconds;
+ } */
 
 /* weather */
 function getmyinfo() {
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var myobj = JSON.parse(xhttp.responseText);
             document.getElementById("weather").innerHTML = myobj.weather[0].description;
@@ -95,11 +93,11 @@ function initMap() {
 
     /* Puts a second marker on the map */
     /*var teeOffImage = 'images/tee-off.png';
-    var beachMarker = new google.maps.Marker({
-        position: {lat: 34.1647332, lng: -118.1690036},
-        map: map,
-        icon: teeOffImage
-    });*/
+     var beachMarker = new google.maps.Marker({
+     position: {lat: 34.1647332, lng: -118.1690036},
+     map: map,
+     icon: teeOffImage
+     });*/
 
     var holeImage = 'images/flag.png';
     var beachMarker = new google.maps.Marker({
@@ -110,20 +108,19 @@ function initMap() {
 }
 
 
-//golf course api
-// look in sandbox for course id.  Use the Course by ID http to pull the par, holes, etc for that specific course. use postman to pull these
 
-
-
-function getCourseInfo() {
+function getCourseInfo(id) {
     var xhttpNew = new XMLHttpRequest();
-    xhttpNew.onreadystatechange() = function() {
+    xhttpNew.onreadystatechange = function () {
         if (xhttpNew.readyState == 4 && xhttpNew.status == 200) {
-            var testcourse = JSON.parsexhttpNew.responseText);
-            document.getElementById(/*several id's*/).innerHTML = testcourse.par
-        }
-    }
-};
+            var response = JSON.parse(xhttpNew.responseText);
 
-xhttpNew.open ("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true); //change this to add just the one id to the end of the http
-xhttpNew.send();
+            for (var i = 1; i <= numholes; i++) {
+                $("#column" + i).append("<span>" + response.course.holes[i].tee_boxes[3].par + "</span><span> Par</span>");
+            }
+        }
+    };
+    xhttpNew.open("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true); 
+    xhttpNew.send();
+
+};

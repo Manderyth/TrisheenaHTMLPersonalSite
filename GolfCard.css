@@ -184,7 +184,6 @@ body,html{
 }
 
 #map {
-    height:25%;
+    height:19%;
     width: 25%;
-    position: fixed;
 }
