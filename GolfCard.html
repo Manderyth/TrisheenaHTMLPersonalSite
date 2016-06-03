@@ -8,8 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwoaueyDWQc_4hZIT5Dyvnl8tOSs9zeaU&callback=initMap" async defer></script>
 </head>
-<body onload="buildcard(); getmyinfo(); timer(); initMap(); getCourseInfo()">
+<body onload="buildcard(); getmyinfo(); timer(); initMap(); getRedInfo(); getGoldInfo(); totals()">
 
+<div id="container">
 <div id="overlaycontainer">
     <div id="contentdiv">
         <div id="golfbanner">
@@ -37,7 +38,7 @@
     </div>
 </div>
 
-<div id="container"></div>
+</div>
 <div id="map"></div>
 </body>
 

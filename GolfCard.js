@@ -31,14 +31,26 @@ function buildcard() {
     buildholes();
 }
 
+
 function buildholes() {
     // add 18 holes to the columns
     for (var p = 1; p <= numplayers; p++) {
         for (var h = 1; h <= numholes; h++) {
             $("#column" + h).append("<div id='player" + p + "hole" + h + "' class='holebox'><input class ='box' type='number' min='0'></div>");
         }
-    }
+     }
 }
+
+
+//create totals column
+function totals() {
+    var ftotal = "";
+     for (var t = 1; t <= 1; t++) {
+            ftotal += "<div id ='total" + t + "' class='totalcolumn' class='holnumbertitle'> Total</div>";
+        }
+    $("#column" + t).html(ftotal);
+}
+
 
 
 /* set time */
@@ -109,18 +121,35 @@ function initMap() {
 
 
 
-function getCourseInfo(id) {
+function getRedInfo(id) {
     var xhttpNew = new XMLHttpRequest();
     xhttpNew.onreadystatechange = function () {
         if (xhttpNew.readyState == 4 && xhttpNew.status == 200) {
             var response = JSON.parse(xhttpNew.responseText);
 
-            for (var i = 1; i <= numholes; i++) {
-                $("#column" + i).append("<span>" + response.course.holes[i].tee_boxes[3].par + "</span><span> Par</span>");
-            }
+            for (var r = 1; r <= numholes; r++) {
+                $("#column" + r).append("<span class='holecol'>" + response.course.holes[r].tee_boxes[3].par + "</span><span> Red</span>");
+                }
         }
     };
     xhttpNew.open("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true); 
+    xhttpNew.send();
+
+};
+
+
+function getGoldInfo() {
+    var xhttpNew = new XMLHttpRequest();
+    xhttpNew.onreadystatechange = function () {
+        if (xhttpNew.readyState == 4 && xhttpNew.status == 200) {
+            var response = JSON.parse(xhttpNew.responseText);
+
+            for (var g = 1; g <= numholes; g++) {
+                $("#column" + g).append("<span class='holecol'>" + response.course.holes[g].tee_boxes[0].par + "</span><span> Gold</span>");
+            }
+        }
+    };
+    xhttpNew.open("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true);
     xhttpNew.send();
 
 };
