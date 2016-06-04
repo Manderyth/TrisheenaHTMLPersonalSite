@@ -133,7 +133,7 @@ body,html{
 }
 
 .holecol{
-    width: 4.9%;
+    width: 4%;
     float:right;
     height: auto;
     border: 1px solid #CCC;
@@ -146,6 +146,10 @@ body,html{
     border-bottom: 1px solid #CCC;
     height: 20px;
     padding-top: 5px;
+    width: 100%;
+}
+.totalbox{
+
 }
 
 #playercolumn{
@@ -158,6 +162,7 @@ body,html{
     border: none;
     padding-top: 5px;
     border-bottom: 1px solid #CCC;
+    padding-bottom: 10%;
 }
 
 .holenumbertitle{
@@ -184,6 +189,15 @@ body,html{
 }
 
 #map {
-    height:19%;
-    width: 25%;
+    height:20%;
+    width: 20%;
+}
+
+/*#name {
+    margin-left: 50%;
+    margin-bottom: 70%;
+}*/
+
+#button {
+    margin-top: 2%;
 }

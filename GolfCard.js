@@ -3,29 +3,39 @@ var numholes = 18;
 var teetime = 10;
 var seconds = 59;
 
+
 function addplayer() {
     numplayers += 1;
-    $("#leftcard").html('');
-    $("#rightcard").html('');
+    //$("#leftcard").html('');
+    //$("#rightcard").html('');
     buildcard();
+    getCourseInfo();
 }
 
 function buildcard() {
     /*beginTimer();*/
     var holecollection = "";
     var playercollection = "";
+    var grandtotalcollection ="";
+    var firstnine="";
+    var secondnine="";
 
     // create column of player labels
     for (var pl = 1; pl <= numplayers; pl++) {
-        playercollection += "<div id='player" + pl + "' class='holebox playerbox'> Player " + pl + "</div>";
+        playercollection += "<div id='player" + pl + "' class='holebox playerbox'>Player " + pl + "<input id='name'></div>";
+        grandtotalcollection += "<div class='holebox' id='grand" + pl +"'>0</div>";
+        firstnine += "<div class='holebox' id='f9" + pl +"'>0</div>";
+        secondnine += "<div class='holebox' id='s9" + pl +"'>0</div>";
+
     }
 
     // create golf hole columns before you add holes to them.
     for (var c = numholes; c >= 1; c--) {
-        holecollection += "<div id='column" + c + "' class='holecol'><div class='holenumbertitle'>" + c + "</div></div>";
+        holecollection += "<div id='column" + c + "' class='holecol'><div class='holenumbertitle'>" + c  + "</div></div>";
     }
     $("#leftcard").html(playercollection);
-    $("#rightcard").html(holecollection);
+    $("#rightcard").html(("<div class='holecol'><div>total</div>" + grandtotalcollection + "</div>") + ("<div class='holecol'><div> 2nd9Total</div>" + secondnine + "</div>") + ("<div class='holecol'><div> 1st9Total</div>" + firstnine + "</div>") + holecollection);
+
 
     // call the function that builds the holes into the columns
     buildholes();
@@ -36,20 +46,29 @@ function buildholes() {
     // add 18 holes to the columns
     for (var p = 1; p <= numplayers; p++) {
         for (var h = 1; h <= numholes; h++) {
-            $("#column" + h).append("<div id='player" + p + "hole" + h + "' class='holebox'><input class ='box' type='number' min='0'></div>");
+            $("#column" + h).append("<input onkeyup='calculatescore(" + p +")' id='player" + p + "hole" + h + "' class='holebox'/>");
         }
-     }
+    }
+}
+
+
+function calculatescore(theplayer) {
+    var thetotal = 0;
+    for (var t = 1; t <= numholes; t++) {
+        thetotal += Number($("#player" + theplayer + "hole" + t).val());
+    }
+    $("#grand" + theplayer).html(thetotal);
 }
 
 
 //create totals column
-function totals() {
-    var ftotal = "";
-     for (var t = 1; t <= 1; t++) {
-            ftotal += "<div id ='total" + t + "' class='totalcolumn' class='holnumbertitle'> Total</div>";
-        }
-    $("#column" + t).html(ftotal);
-}
+/*function totals() {
+ var ftotal = "";
+ for (var t = 1; t <= numplayers; t++) {
+ ftotal += "<div id ='total" + t + "' class='totalcolumn' class='holnumbertitle' class='holecol'> Total</div>";
+ }
+ $("#column" + t).html(ftotal);
+ }*/
 
 
 
@@ -121,35 +140,19 @@ function initMap() {
 
 
 
-function getRedInfo(id) {
+function getCourseInfo() {
     var xhttpNew = new XMLHttpRequest();
     xhttpNew.onreadystatechange = function () {
         if (xhttpNew.readyState == 4 && xhttpNew.status == 200) {
             var response = JSON.parse(xhttpNew.responseText);
-
-            for (var r = 1; r <= numholes; r++) {
-                $("#column" + r).append("<span class='holecol'>" + response.course.holes[r].tee_boxes[3].par + "</span><span> Red</span>");
-                }
-        }
-    };
-    xhttpNew.open("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true); 
-    xhttpNew.send();
-
-};
-
-
-function getGoldInfo() {
-    var xhttpNew = new XMLHttpRequest();
-    xhttpNew.onreadystatechange = function () {
-        if (xhttpNew.readyState == 4 && xhttpNew.status == 200) {
-            var response = JSON.parse(xhttpNew.responseText);
-
-            for (var g = 1; g <= numholes; g++) {
-                $("#column" + g).append("<span class='holecol'>" + response.course.holes[g].tee_boxes[0].par + "</span><span> Gold</span>");
+            for (var r = 0; r <= numholes; r++) {
+                $("#column" + (r + 1)).append("<span> Par </span><span class=''>" + response.course.holes[r].tee_boxes[3].par + "</span><br>");
+                $("#column" + (r + 1)).append("<span> Yards </span><span class=''>" + response.course.holes[r].tee_boxes[3].yards + "</span>");
             }
         }
     };
     xhttpNew.open("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true);
     xhttpNew.send();
-
 };
+
+

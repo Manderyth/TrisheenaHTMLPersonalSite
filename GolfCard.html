@@ -4,11 +4,12 @@
     <title></title>
     <meta charset="UTF-8">
     <script src="GolfCard.js"></script>
+    <!--<script src="Sandbox.js"></script>-->
     <link rel="stylesheet" type="text/css" href="GolfCard.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwoaueyDWQc_4hZIT5Dyvnl8tOSs9zeaU&callback=initMap" async defer></script>
 </head>
-<body onload="buildcard(); getmyinfo(); timer(); initMap(); getRedInfo(); getGoldInfo(); totals()">
+<body onload="buildcard(); getmyinfo(); timer(); initMap(); getCourseInfo()">
 
 <div id="container">
 <div id="overlaycontainer">
@@ -22,6 +23,7 @@
                 <div class="barright">
                     <div id ="demo"></div>
                     <div id="countdown"></div>
+                    <div>Weather Conditions</div>
                     <div id="weather"></div>
                  </div>
             </div>
@@ -31,7 +33,7 @@
 
             <div id="leftcard"></div>
             <div id="rightcard"></div>
-            <button onclick ="addplayer()">Add Player</button>
+            <button id="button" onclick ="addplayer()">Add Player</button>
 
 
         </div>
