@@ -146,7 +146,7 @@ body,html{
     border-bottom: 1px solid #CCC;
     height: 20px;
     padding-top: 5px;
-    width: 100%;
+    width: 90%;
 }
 .totalbox{
 
@@ -161,8 +161,9 @@ body,html{
     font-size: 12px;
     border: none;
     padding-top: 5px;
-    border-bottom: 1px solid #CCC;
-    padding-bottom: 10%;
+    margin-top: 10px;
+    /*border-bottom: 1px solid #CCC;*/
+    padding-bottom: 5%;
 }
 
 .holenumbertitle{
