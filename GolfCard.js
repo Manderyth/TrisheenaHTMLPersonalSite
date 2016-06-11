@@ -4,7 +4,7 @@ var response = [];
 var totalp = 0;
 var totaly = 0;
 var firstpar = 1;
-var lastpar = 9;
+var secondpar = 1;
 
 function addplayer() {
     numplayers += 1;
@@ -25,7 +25,7 @@ function buildcard(teeboxid) {
 
     // create column of player labels
     for (var pl = 1; pl <= numplayers; pl++) {
-        playercollection += "<div id='player" + pl + "' class='holebox playerbox'><input id='name'> Player " + pl + "</div>";
+        playercollection += "<div id='player" + pl + "' class='holebox playerbox'><input id='name'>Player " + pl + "</div>";
         grandtotalcollection += "<div class='holebox' id='grand" + pl +"'>0</div>";
         firstnine += "<div class='holebox' id='f9" + pl +"'>0</div>";
         secondnine += "<div class='holebox' id='s9" + pl +"'>0</div>";
@@ -35,14 +35,12 @@ function buildcard(teeboxid) {
     // create golf hole columns before you add holes to them.
     for (var c = numholes; c >= 1; c--) {
         var adjusthole = c - 1;
-        var adjusthole2 = c - 1;
-        var adjusthole3 = c - 1;
-        holecollection += "<div id='column" + c + "' class='holecol'><div class='holenumbertitle'><div>" + c + '<div> Par ' + (response.course.holes[adjusthole].tee_boxes[teeboxid].par) + '<div> Yards ' + (response.course.holes[adjusthole2].tee_boxes[teeboxid].yards) + '<div> H ' + (response.course.holes[adjusthole3].tee_boxes[teeboxid].hcp) +"</div></div></div></div></div></div>";
+        holecollection += "<div id='column" + c + "' class='holecol'><div class='holenumbertitle'><div>" + c + '<div> Par ' + (response.course.holes[adjusthole].tee_boxes[teeboxid].par) + '<div> Yards ' + (response.course.holes[adjusthole].tee_boxes[teeboxid].yards) + '<div> H ' + (response.course.holes[adjusthole].tee_boxes[teeboxid].hcp) +"</div></div></div></div></div></div></div>";
     }
 
 
     $("#leftcard").html(playercollection);
-    $("#rightcard").html(("<div class='holecol'><div>Total <div>TP" + totalpar() +"</div><div>TY" + totalyards() +"</div></div>" + grandtotalcollection +"</div>") + ("<div class='holecol'><div> In </div><div>EmptyP</div><div>EmptyY</div>" + secondnine + "</div>") + ("<div class='holecol'><div> Out </div><div>EmptyP</div><div>EmptyY</div>" + firstnine + "</div>") + holecollection);
+    $("#rightcard").html(("<div class='holecol'><div>Total <div>TP" + totalpar() +"</div><div>TYards<br>" + totalyards() +"</div></div><div>Spacer</div>" + grandtotalcollection +"</div>") + ("<div class='holecol'><div> In </div><div>SNP" + secondninepar() +"</div><div>Empty<br>Y</div><div>Spacer</div>" + secondnine + "</div>") + ("<div class='holecol'><div> Out </div><div>FNP" + firstninepar() +"</div><div>Empty<br>Y</div>Spacer<div></div>" + firstnine + "</div></div>") + holecollection);
 
 
     // call the function that builds the holes into the columns
@@ -57,7 +55,7 @@ function buildholes() {
     // add 18 holes to the columns
     for (var p = 1; p <= numplayers; p++) {
         for (var h = 1; h <= numholes; h++) {
-            $("#column" + h).append("<input type =number min = 0 onkeyup='calculatescore(" + p + ")' id='player" + p + "hole" + h + "' class='holebox'/>");
+            $("#column" + h).append(`<input type = "number" min = "0" onblur="compareTotals(${p})" onkeyup="calculatescore(${p})" id="player${p}hole${h}" class="holebox"/>`);
         }
     }
 }
@@ -70,6 +68,10 @@ function calculatescore(theplayer) {
     var firstNineTotal = 0;
     var secondNineTotal = 0;
 
+    for (var t = 1; t <= numholes; t++) {
+        thetotal += Number($("#player" + theplayer + "hole" + t).val());
+    }
+
     for (var r = 1; r <= 9; r++){
         firstNineTotal += Number($("#player" + theplayer + "hole" + r).val());
     }
@@ -78,17 +80,44 @@ function calculatescore(theplayer) {
         secondNineTotal += Number($("#player" + theplayer + "hole" + s).val());
     }
 
-    for (var t = 1; t <= numholes; t++) {
-        thetotal += Number($("#player" + theplayer + "hole" + t).val());
-    }
     $("#grand" + theplayer).html(thetotal);
     $("#s9" + theplayer).html(secondNineTotal);
     $("#f9" + theplayer).html(firstNineTotal);
 }
 
 
-//calculate total par
+function compareTotals(playertotal) {
+    var totalComp = 0;
+    var ctindex = $("#selectteebox").val();
+
+    for (var ct = 1; ct <= numholes; ct++) {
+        var score = Number($("#player" + playertotal + "hole" + ct).val());
+
+        // make sure all cells are filled in
+        if(score <= 0) {
+            return;
+        }
+        totalComp += score;
+    }
+
+    var message;
+
+    if (totalComp >= response.course.tee_types[ctindex].par) {
+        message = "You were over Par.  Better Luck Next Time!"
+    }
+    else {
+        message = "You were at or under par.  Good Job!"
+    }
+
+    alert(message);
+}
+
+
+
+
+//calculate total pars
 function totalpar() {
+    totalp = 0;
 
     var tindex = $("#selectteebox").val();
 
@@ -96,27 +125,41 @@ function totalpar() {
         totalp += response.course.holes[p].tee_boxes[tindex].par;
     }
 
-    /*for (var fnp = 1; fnp <= 9; fnp ++) {
-        firstpar += response.course.holes[p].tee_boxes[tindex].par;
-    }
-
-    for (var lnp = 10; lnp <=18; lnp ++) {
-        lastpar += response.course.holes[p].tee_boxes[tindex].par;
-    }*/
-
     console.log(totalp);
     var mytotal = totalp;
     return mytotal;
-    /*var firsthalf = firstpar;
-    return firsthalf;
-    var lasthalf = lastpar;
-    return lasthalf;*/
 }
 
+
+function firstninepar() {
+    firstpar = 1;
+
+    var fnpindex = $("#selectteebox").val();
+
+    for (var fnp = 1; fnp <= 9; fnp ++) {
+        firstpar += response.course.holes[fnp].tee_boxes[fnpindex].par;
+    }
+    var firsthalf = firstpar;
+    return firsthalf;
+}
+
+
+function secondninepar() {
+    secondpar =1;
+
+    var snpindex = $("#selectteebox").val();
+
+    for (var snp = 1; snp <= 9; snp ++) {
+        secondpar += response.course.holes[snp].tee_boxes[snpindex].par;
+    }
+    var secondhalf = secondpar;
+    return secondhalf;
+}
 
 
 //calculate total yards
 function totalyards() {
+    totaly =0;
 
     var yindex = $("#selectteebox").val();
 
@@ -173,7 +216,6 @@ function initMap() {
 }
 
 
-
 function getCourseInfo() {
     var xhttpNew = new XMLHttpRequest();
     xhttpNew.onreadystatechange = function () {
@@ -181,9 +223,9 @@ function getCourseInfo() {
             response = JSON.parse(xhttpNew.responseText);
             for (var r = 0; r <= (response.course.holes[r].tee_boxes.length - 1); r++) {
                 var teeboxdisplay = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].tee_type +"</option>";
-                var teeboxdisplay2 = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].yards +"</option>";
-                var teeboxdisplay3 = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].hcp +"</option>";
-                $("#selectteebox").append(teeboxdisplay, teeboxdisplay2, teeboxdisplay3);
+                //var teeboxdisplay2 = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].yards +"</option>";
+                //var teeboxdisplay3 = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].hcp +"</option>";
+                $("#selectteebox").append(teeboxdisplay);
             }
         }
     };
@@ -201,12 +243,19 @@ function setCourseinfo (thisid) {
 
 
 
+
 // validate no two names are the same
-function validatename() {
-        var x = document.input ["myinput"] ["name"].value;
 
-        if (x == null || x == "") {
+$('#name').submit(function() {
+    var id1 = $('#name').text();
+    var id2 = $('#name').text();
+    if (id1 == id2) {
+        alert('Error, duplicate name');
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 
-        }
-}
-validatename();
+});
