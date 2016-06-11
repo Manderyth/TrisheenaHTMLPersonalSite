@@ -9,11 +9,12 @@
     <!--<script src="GolfCard.js"></script>-->
     <script src="Sandbox.js"></script>
 </head>
-<body onload="getmyinfo(); timer(); initMap(); getCourseInfo()">
+<body onload="getmyinfo(); initMap(); loadMe()">
 
 <div id="container">
 <div id="overlaycontainer">
     <div id="contentdiv">
+
         <div id="golfbanner">
             <div class="blackbar">
                 <div class="barleft">
@@ -27,16 +28,17 @@
                     <div id="weather"></div>
                  </div>
             </div>
-            <div id="golfcourselabel">Brookside Golf & Country Club</div>
+            <div id="golfcourselabel">Choose Your Course</div>
         </div>
-            <div id="scorecard">
 
+            <div id="scorecard">
+                <select id="selectCourse" onChange="getCourseInfo(this.value)"></select>
             <div id="leftcard"></div>
             <div id="rightcard"></div>
 
             <button id="button" onclick ="addplayer(); setCourseinfo(this.value)">Add Player</button>
 
-            <select id="selectteebox"></select>
+            <select id="selectteebox" onChange=" setCourseInfo(this.value)"></select>
 
 
         </div>
