@@ -6,6 +6,22 @@ var totaly = 0;
 var firstpar = 1;
 var secondpar = 1;
 
+
+var closeCourses = {};
+var golfxhttp = new XMLHttpRequest();
+var local_obj = {latitude: 34.1645327, longitude: -118.1699226, radius: 100}
+
+function loadMe(){
+    $.post("https://golf-courses-api.herokuapp.com/courses",local_obj,function(data,status) {
+        closeCourses = JSON.parse(data);
+        for (var p in closeCourses.courses){
+            var selectdisplay = "<option value='"+ closeCourses.courses[p].id +"'>" + closeCourses.courses[p].name +"</option>";
+            $("#selectCourse").append(selectdisplay);
+        }
+    });
+};
+
+
 function addplayer() {
     numplayers += 1;
     teeboxid=$("#selectteebox").val();
@@ -14,7 +30,7 @@ function addplayer() {
 
 }
 
-function buildcard(teeboxid) {
+function buildcard(theteeboxid) {
     /*beginTimer();*/
     var holecollection = "";
     var playercollection = "";
@@ -25,7 +41,7 @@ function buildcard(teeboxid) {
 
     // create column of player labels
     for (var pl = 1; pl <= numplayers; pl++) {
-        playercollection += "<div id='player" + pl + "' class='holebox playerbox'><input id='name'>Player " + pl + "</div>";
+        playercollection += "<div id='player" + pl + "' class='holebox playerbox'><input id='firstname' class='' name='firstname' type='text'  value='First Name' onfocus='if (this.value == 'First Name') {this.value = '';}' onblur='if (this.value == '')'/></div>";
         grandtotalcollection += "<div class='holebox' id='grand" + pl +"'>0</div>";
         firstnine += "<div class='holebox' id='f9" + pl +"'>0</div>";
         secondnine += "<div class='holebox' id='s9" + pl +"'>0</div>";
@@ -35,12 +51,12 @@ function buildcard(teeboxid) {
     // create golf hole columns before you add holes to them.
     for (var c = numholes; c >= 1; c--) {
         var adjusthole = c - 1;
-        holecollection += "<div id='column" + c + "' class='holecol'><div class='holenumbertitle'><div>" + c + '<div> Par ' + (response.course.holes[adjusthole].tee_boxes[teeboxid].par) + '<div> Yards ' + (response.course.holes[adjusthole].tee_boxes[teeboxid].yards) + '<div> H ' + (response.course.holes[adjusthole].tee_boxes[teeboxid].hcp) +"</div></div></div></div></div></div></div>";
+        holecollection += "<div id='column" + c + "' class='holecol'><div class='holenumbertitle'><div>" + c + '<div> Par ' + (response.course.holes[adjusthole].tee_boxes[theteeboxid].par) + '<div> Yards ' + (response.course.holes[adjusthole].tee_boxes[theteeboxid].yards) + '<div> H ' + (response.course.holes[adjusthole].tee_boxes[theteeboxid].hcp) +"</div></div></div></div></div></div></div>";
     }
 
 
     $("#leftcard").html(playercollection);
-    $("#rightcard").html(("<div class='holecol'><div>Total <div>TP" + totalpar() +"</div><div>TYards<br>" + totalyards() +"</div></div><div>Spacer</div>" + grandtotalcollection +"</div>") + ("<div class='holecol'><div> In </div><div>SNP" + secondninepar() +"</div><div>Empty<br>Y</div><div>Spacer</div>" + secondnine + "</div>") + ("<div class='holecol'><div> Out </div><div>FNP" + firstninepar() +"</div><div>Empty<br>Y</div>Spacer<div></div>" + firstnine + "</div></div>") + holecollection);
+    $("#rightcard").html(("<div class='holecol'><div>Total <div>TP" + totalpar() +"</div><div>TYards<br>" + totalyards() +"</div></div><div>Spacer</div>" + grandtotalcollection +"</div>") + ("<div class='holecol'><div> In </div><div>SNP" + secondninepar() +"</div><div>SNY "+ secondNineYards() +"</div><div>Spacer</div>" + secondnine + "</div>") + ("<div class='holecol'><div> Out </div><div>FNP" + firstninepar() +"</div><div>FNY "+ firstNineYards()+"</div>Spacer<div></div>" + firstnine + "</div></div>") + holecollection);
 
 
     // call the function that builds the holes into the columns
@@ -173,6 +189,32 @@ function totalyards() {
 }
 
 
+function firstNineYards() {
+    firstyards = 1;
+
+    var fnyindex = $("#selectteebox").val();
+
+    for (var fny = 1; fny <=9; fny ++) {
+        firstyards += response.course.holes[fny].tee_boxes[fnyindex].yards;
+    }
+    var firsthalfyards = firstyards;
+    return firsthalfyards;
+}
+
+
+function secondNineYards() {
+    secondyards = 1;
+
+    var snyindex = $("#selectteebox").val();
+
+    for (var sny = 1; sny <=9; sny ++) {
+        secondyards += response.course.holes[sny].tee_boxes[snyindex].yards;
+    }
+    var secondhalfyards = secondyards;
+    return secondhalfyards;
+}
+
+
 
 /* set time */
 var time = setInterval(timer, 1000);
@@ -186,16 +228,16 @@ function timer() {
 
 
 /* weather */
-function getmyinfo() {
+function getmyinfo(thecityname) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            var myobj = JSON.parse(xhttp.responseText);
-            document.getElementById("weather").innerHTML = myobj.weather[0].description;
+            var obj = JSON.parse(xhttp.responseText);
+            document.getElementById("currentconditions").innerHTML = obj.weather[0].description;
         }
     }
 
-    xhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?zip=90001,us&appid=b6f46262ca6af205ba96ec80334d0aea", true);
+    xhttp.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=" + thecityname + "&appid=b6f46262ca6af205ba96ec80334d0aea", true);
     xhttp.send();
 }
 
@@ -216,46 +258,29 @@ function initMap() {
 }
 
 
-function getCourseInfo() {
-    var xhttpNew = new XMLHttpRequest();
-    xhttpNew.onreadystatechange = function () {
-        if (xhttpNew.readyState == 4 && xhttpNew.status == 200) {
-            response = JSON.parse(xhttpNew.responseText);
+function getCourseInfo(id) {
+    golfxhttp = new XMLHttpRequest;
+    golfxhttp.onreadystatechange = function () {
+        if (golfxhttp.readyState == 4 && golfxhttp.status == 200) {
+            response = JSON.parse(golfxhttp.responseText);
+            $("#golfcourselabel").html(response.course.name);
             for (var r = 0; r <= (response.course.holes[r].tee_boxes.length - 1); r++) {
                 var teeboxdisplay = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].tee_type +"</option>";
-                //var teeboxdisplay2 = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].yards +"</option>";
-                //var teeboxdisplay3 = "<option value='" + r + "'> "+ response.course.holes[0].tee_boxes[r].hcp +"</option>";
                 $("#selectteebox").append(teeboxdisplay);
             }
         }
     };
-    xhttpNew.open("GET", "https://golf-courses-api.herokuapp.com/courses/26828", true);
-    xhttpNew.send();
+    golfxhttp.open("GET", "https://golf-courses-api.herokuapp.com/courses/" + id, true);
+    golfxhttp.send();
 };
 
 
-var teeboxid;
 
-function setCourseinfo (thisid) {
-    teeboxid=thisid;
-    buildcard(thisid);
+function setCourseinfo (teeboxid) {
+    buildcard(teeboxid);
 }
 
 
 
 
-// validate no two names are the same
 
-$('#name').submit(function() {
-    var id1 = $('#name').text();
-    var id2 = $('#name').text();
-    if (id1 == id2) {
-        alert('Error, duplicate name');
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-
-});
